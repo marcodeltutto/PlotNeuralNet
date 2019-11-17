@@ -1,0 +1,264 @@
+
+\documentclass[border=8pt, multi, tikz]{standalone} 
+\usepackage{import}
+\subimport{../layers/}{init}
+\usetikzlibrary{positioning}
+\usetikzlibrary{3d} %for including external image 
+
+\def\ConvColor{rgb:yellow,5;red,2.5;white,5}
+\def\ConvReluColor{rgb:yellow,5;red,5;white,5}
+\def\PoolColor{rgb:red,1;black,0.3}
+\def\UnpoolColor{rgb:blue,2;green,1;black,0.3}
+\def\FcColor{rgb:blue,5;red,2.5;white,5}
+\def\FcReluColor{rgb:blue,5;red,5;white,4}
+\def\SoftmaxColor{rgb:magenta,5;black,7}   
+
+\newcommand{\copymidarrow}{\tikz \draw[-Stealth,line width=0.8mm,draw={rgb:blue,4;red,1;green,1;black,3}] (-0.3,0) -- ++(0.3,0);}
+
+\begin{document}
+\begin{tikzpicture}
+\tikzstyle{connection}=[ultra thick,every node/.style={sloped,allow upside down},draw=\edgecolor,opacity=0.7]
+\tikzstyle{copyconnection}=[ultra thick,every node/.style={sloped,allow upside down},draw={rgb:blue,4;red,1;green,1;black,3},opacity=0.7]
+
+\node[canvas is zy plane at x=0] (temp) at (-5,5,0) {\reflectbox{\includegraphics[width=13cm,height=8cm]{/Users/deltutto/Downloads/plane_0_zoom}}};
+
+\pic[shift={(0,5,0)}] at (0,0,0) 
+    {Box={
+        name=conv1,
+        caption=Initial Convolution,
+        xlabel={{32, }},
+        zlabel=2048,
+        fill=\ConvColor,
+        height=40,
+        width=0.96,
+        depth=64
+        }
+    };
+
+\pic[shift={(2,0,0)}] at (conv1-east) 
+    {Box={
+        name=convres1,
+        caption=Residual Block,
+        xlabel={{32, }},
+        zlabel=512,
+        fill={rgb:red,1;black,0.08},
+        height=40,
+        width=6,
+        depth=64
+        }
+    };
+
+\draw [connection]  (conv1-east)    -- node {\midarrow} (convres1-west);
+
+\pic[shift={(4,0,0)}] at (convres1-east) 
+    {Box={
+        name=conv2,
+        caption=Downsampling,
+        xlabel={{64, }},
+        zlabel=256,
+        fill=\ConvColor,
+        height=20,
+        width=1.92,
+        depth=32
+        }
+    };
+
+\draw [connection]  (convres1-east)    -- node {\midarrow} (conv2-west);
+
+\pic[shift={(2,0,0)}] at (conv2-east) 
+    {Box={
+        name=convres2,
+        caption= ,
+        xlabel={{64, }},
+        zlabel=256,
+        fill={rgb:red,1;black,0.08},
+        height=20,
+        width=6,
+        depth=32
+        }
+    };
+
+\draw [connection]  (conv2-east)    -- node {\midarrow} (convres2-west);
+
+\pic[shift={(3,0,0)}] at (convres2-east) 
+    {Box={
+        name=conv3,
+        caption= ,
+        xlabel={{96, }},
+        zlabel=128,
+        fill=\ConvColor,
+        height=10,
+        width=2.88,
+        depth=16
+        }
+    };
+
+\draw [connection]  (convres2-east)    -- node {\midarrow} (conv3-west);
+
+\pic[shift={(2,0,0)}] at (conv3-east) 
+    {Box={
+        name=convres3,
+        caption= ,
+        xlabel={{96, }},
+        zlabel=128,
+        fill={rgb:red,1;black,0.08},
+        height=10,
+        width=6,
+        depth=16
+        }
+    };
+
+\draw [connection]  (conv3-east)    -- node {\midarrow} (convres3-west);
+
+\pic[shift={(2,0,0)}] at (convres3-east) 
+    {Box={
+        name=conv4,
+        caption= ,
+        xlabel={{128, }},
+        zlabel=64,
+        fill=\ConvColor,
+        height=5,
+        width=3.84,
+        depth=8
+        }
+    };
+
+\draw [connection]  (convres3-east)    -- node {\midarrow} (conv4-west);
+
+\pic[shift={(1,0,0)}] at (conv4-east) 
+    {Box={
+        name=convres4,
+        caption= ,
+        xlabel={{128, }},
+        zlabel=64,
+        fill={rgb:red,1;black,0.08},
+        height=5,
+        width=6,
+        depth=8
+        }
+    };
+
+\draw [connection]  (conv4-east)    -- node {\midarrow} (convres4-west);
+
+\pic[shift={(1,0,0)}] at (convres4-east) 
+    {Box={
+        name=conv5,
+        caption= ,
+        xlabel={{160, }},
+        zlabel=32,
+        fill=\ConvColor,
+        height=2,
+        width=4.8,
+        depth=4
+        }
+    };
+
+\draw [connection]  (convres4-east)    -- node {\midarrow} (conv5-west);
+
+\pic[shift={(1,0,0)}] at (conv5-east) 
+    {Box={
+        name=convres5,
+        caption= ,
+        xlabel={{160, }},
+        zlabel=32,
+        fill={rgb:red,1;black,0.08},
+        height=2,
+        width=6,
+        depth=4
+        }
+    };
+
+\draw [connection]  (conv5-east)    -- node {\midarrow} (convres5-west);
+
+\pic[shift={(1,0,0)}] at (convres5-east) 
+    {Box={
+        name=conv6,
+        caption= ,
+        xlabel={{192, }},
+        zlabel=16,
+        fill=\ConvColor,
+        height=1,
+        width=5.76,
+        depth=2
+        }
+    };
+
+\draw [connection]  (convres5-east)    -- node {\midarrow} (conv6-west);
+
+\pic[shift={(1,0,0)}] at (conv6-east) 
+    {Box={
+        name=convres_final1,
+        caption= ,
+        xlabel={{192, }},
+        zlabel=16,
+        fill={rgb:red,1;black,0.08},
+        height=1,
+        width=6,
+        depth=2
+        }
+    };
+
+\draw [connection]  (conv6-east)    -- node {\midarrow} (convres_final1-west);
+
+\pic[shift={(1,0,0)}] at (convres_final1-east) 
+    {Box={
+        name=convres_final2,
+        caption= ,
+        xlabel={{192, }},
+        zlabel=16,
+        fill={rgb:red,1;black,0.08},
+        height=1,
+        width=6,
+        depth=2
+        }
+    };
+
+\draw [connection]  (convres_final1-east)    -- node {\midarrow} (convres_final2-west);
+
+\pic[shift={(2,0,0)}] at (convres_final2-east) 
+    {Box={
+        name=conv_bott,
+        caption=Bottleneck,
+        xlabel={{2, }},
+        zlabel=16,
+        fill=\ConvColor,
+        height=1,
+        width=2,
+        depth=2
+        }
+    };
+
+\draw [connection]  (convres_final2-east)    -- node {\midarrow} (conv_bott-west);
+
+\pic[shift={ (2,0,0) }] at (conv_bott-east) 
+    {Box={
+        name=pool,
+        caption=Av 3D Pooling,
+        fill=\PoolColor,
+        opacity=0.5,
+        height=1,
+        width=1,
+        depth=2
+        }
+    };
+
+\draw [connection]  (conv_bott-east)    -- node {\midarrow} (pool-west);
+
+\pic[shift={(2,0,0)}] at (pool-east) 
+    {Box={
+        name=criterion,
+        caption=Cross Entropy Loss,
+        xlabel={{" ","dummy"}},
+        zlabel=2,
+        fill=\SoftmaxColor,
+        opacity=0.8,
+        height=1,
+        width=1,
+        depth=1
+        }
+    };
+
+\draw [connection]  (pool-east)    -- node {\midarrow} (criterion-west);
+
+\end{tikzpicture}
+\end{document}

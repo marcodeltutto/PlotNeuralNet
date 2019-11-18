@@ -22,7 +22,7 @@
 
 \node[canvas is zy plane at x=0] (temp) at (-5,15,0) {\reflectbox{\includegraphics[width=13cm,height=8cm]{/Users/deltutto/Downloads/plane_0_zoom}}};
 
-\pic[shift={(5,15,0)}] at (-5,0,0) 
+\pic[shift={(0,15,0)}] at (0,0,0) 
     {Box={
         name=conv1,
         caption=Initial Convolution,
@@ -140,24 +140,21 @@
 
 \draw [connection]  (conv4-east)    -- node {\midarrow} (convres4-west);
 
-\pic[shift={(2,0,0)}] at (convres4-east) 
-    {Box={
-        name=conv5,
-        caption= ,
-        xlabel={{160, }},
-        zlabel=128,
-        fill=\ConvColor,
-        height=2,
-        width=4.8,
-        depth=4
-        }
-    };
+%%%%%%%%%%%%%%%%%%%%%%%%%% ADDITION
+% Horizontal line going right
+\path (conv4-west) -- (convres4-east) coordinate[pos=1.0] (plane_0_dir) ;
+\coordinate (plane_0_ontheright) at ([xshift=+100pt] plane_0_dir.north east);
+\draw [connection] (plane_0_dir) -- node {\midarrow} (plane_0_ontheright);
 
-\draw [connection]  (convres4-east)    -- node {\midarrow} (conv5-west);
+% Vertical line going down
+\coordinate (plane_0_ontheright_down) at ([yshift=-427] plane_0_ontheright.north west);
+\draw [connection] (plane_0_ontheright) -- node {\midarrow} (plane_0_ontheright_down);
+%%%%%%%%%%%%%%%%%%%%%%%%%% ADDITION
+
 
 \node[canvas is zy plane at x=0] (temp) at (-5,0,0) {\reflectbox{\includegraphics[width=13cm,height=8cm]{/Users/deltutto/Downloads/plane_1_zoom}}};
 
-\pic[shift={(5,0,0)}] at (-5,0,0) 
+\pic[shift={(0,0,0)}] at (0,0,0) 
     {Box={
         name=conv1,
         caption=Initial Convolution,
@@ -275,24 +272,21 @@
 
 \draw [connection]  (conv4-east)    -- node {\midarrow} (convres4-west);
 
-\pic[shift={(2,0,0)}] at (convres4-east) 
-    {Box={
-        name=conv5,
-        caption= ,
-        xlabel={{160, }},
-        zlabel=128,
-        fill=\ConvColor,
-        height=2,
-        width=4.8,
-        depth=4
-        }
-    };
 
-\draw [connection]  (convres4-east)    -- node {\midarrow} (conv5-west);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% ADDITION
+% Horizontal line going right
+\path (conv4-west) -- (convres4-east) coordinate[pos=1.0] (plane_0_dir) ;
+\coordinate (plane_0_ontheright) at ([xshift=+150pt] plane_0_dir.north east);
+\draw [connection] (plane_0_dir) -- node {\midarrow} (plane_0_ontheright);
+%%%%%%%%%%%%%%%%%%%%%%%%%% ADDITION
+
+
+
 
 \node[canvas is zy plane at x=0] (temp) at (-5,-15,0) {\reflectbox{\includegraphics[width=13cm,height=8cm]{/Users/deltutto/Downloads/plane_2_zoom}}};
 
-\pic[shift={(5,-15,0)}] at (-5,0,0) 
+\pic[shift={(0,-15,0)}] at (0,0,0) 
     {Box={
         name=conv1,
         caption=Initial Convolution,
@@ -410,153 +404,17 @@
 
 \draw [connection]  (conv4-east)    -- node {\midarrow} (convres4-west);
 
-\pic[shift={(2,0,0)}] at (convres4-east) 
-    {Box={
-        name=conv5,
-        caption= ,
-        xlabel={{160, }},
-        zlabel=128,
-        fill=\ConvColor,
-        height=2,
-        width=4.8,
-        depth=4
-        }
-    };
 
-\draw [connection]  (convres4-east)    -- node {\midarrow} (conv5-west);
+%%%%%%%%%%%%%%%%%%%%%%%%%% ADDITION
+% Horizontal line going right
+\path (conv4-west) -- (convres4-east) coordinate[pos=1.0] (plane_0_dir) ;
+\coordinate (plane_0_ontheright) at ([xshift=+100pt] plane_0_dir.north east);
+\draw [connection] (plane_0_dir) -- node {\midarrow} (plane_0_ontheright);
 
-\pic[shift={(5,0,0)}] at (25,0,0) 
-    {Box={
-        name=conv5,
-        caption= ,
-        xlabel={{480, }},
-        zlabel=128,
-        fill=\ConvColor,
-        height=6,
-        width=14.4,
-        depth=12
-        }
-    };
-
-\pic[shift={(1,0,0)}] at (conv5-east) 
-    {Box={
-        name=convres5,
-        caption= ,
-        xlabel={{480, }},
-        zlabel=128,
-        fill={rgb:red,1;black,0.08},
-        height=6,
-        width=18,
-        depth=12
-        }
-    };
-
-\draw [connection]  (conv5-east)    -- node {\midarrow} (convres5-west);
-
-\pic[shift={(1,0,0)}] at (convres5-east) 
-    {Box={
-        name=conv6,
-        caption= ,
-        xlabel={{576, }},
-        zlabel=64,
-        fill=\ConvColor,
-        height=3,
-        width=17.28,
-        depth=6
-        }
-    };
-
-\draw [connection]  (convres5-east)    -- node {\midarrow} (conv6-west);
-
-\pic[shift={(1,0,0)}] at (conv6-east) 
-    {Box={
-        name=convres6,
-        caption= ,
-        xlabel={{576, }},
-        zlabel=64,
-        fill={rgb:red,1;black,0.08},
-        height=3,
-        width=18,
-        depth=6
-        }
-    };
-
-\draw [connection]  (conv6-east)    -- node {\midarrow} (convres6-west);
-
-\pic[shift={(1,0,0)}] at (convres6-east) 
-    {Box={
-        name=conv7,
-        caption= ,
-        xlabel={{672, }},
-        zlabel=32,
-        fill=\ConvColor,
-        height=0,
-        width=17.28,
-        depth=3
-        }
-    };
-
-\draw [connection]  (convres6-east)    -- node {\midarrow} (conv7-west);
-
-\pic[shift={(1,0,0)}] at (conv7-east) 
-    {Box={
-        name=convres_final2,
-        caption= ,
-        xlabel={{672, }},
-        zlabel=32,
-        fill={rgb:red,1;black,0.08},
-        height=0,
-        width=18,
-        depth=3
-        }
-    };
-
-\draw [connection]  (conv7-east)    -- node {\midarrow} (convres_final2-west);
-
-\pic[shift={(2,0,0)}] at (convres_final2-east) 
-    {Box={
-        name=conv_bott,
-        caption=Bottleneck,
-        xlabel={{3, }},
-        zlabel=32,
-        fill=\ConvColor,
-        height=0,
-        width=3,
-        depth=3
-        }
-    };
-
-\draw [connection]  (convres_final2-east)    -- node {\midarrow} (conv_bott-west);
-
-\pic[shift={ (2,0,0) }] at (conv_bott-east) 
-    {Box={
-        name=pool,
-        caption=Av 3D Pooling,
-        fill=\PoolColor,
-        opacity=0.5,
-        height=0,
-        width=3,
-        depth=3
-        }
-    };
-
-\draw [connection]  (conv_bott-east)    -- node {\midarrow} (pool-west);
-
-\pic[shift={(2,0,0)}] at (pool-east) 
-    {Box={
-        name=criterion,
-        caption=Softmax,
-        xlabel={{" ","dummy"}},
-        zlabel=$n_c$,
-        fill=\SoftmaxColor,
-        opacity=0.8,
-        height=1,
-        width=3,
-        depth=1
-        }
-    };
-
-\draw [connection]  (pool-east)    -- node {\midarrow} (criterion-west);
+% Vertical line going down
+\coordinate (plane_0_ontheright_down) at ([yshift=+427pt] plane_0_ontheright.north west);
+\draw [connection] (plane_0_ontheright) -- node {\midarrow} (plane_0_ontheright_down);
+%%%%%%%%%%%%%%%%%%%%%%%%%% ADDITION
 
 \end{tikzpicture}
 \end{document}

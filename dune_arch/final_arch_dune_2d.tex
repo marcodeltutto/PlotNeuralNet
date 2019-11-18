@@ -12,6 +12,7 @@
 \def\FcColor{rgb:blue,5;red,2.5;white,5}
 \def\FcReluColor{rgb:blue,5;red,5;white,4}
 \def\SoftmaxColor{rgb:magenta,5;black,7}   
+\def\DcnvColor{rgb:blue,5;green,2.5;white,5}
 
 \newcommand{\copymidarrow}{\tikz \draw[-Stealth,line width=0.8mm,draw={rgb:blue,4;red,1;green,1;black,3}] (-0.3,0) -- ++(0.3,0);}
 
@@ -27,6 +28,7 @@
         name=conv1,
         caption=Initial Convolution,
         xlabel={{32, }},
+        ylabel=1280,
         zlabel=2048,
         fill=\ConvColor,
         height=40,
@@ -41,6 +43,7 @@
         caption=2x Residual Block,
         xlabel={{32, }},
         zlabel=2048,
+        ylabel=1280,
         fill={rgb:red,1;black,0.08},
         height=40,
         width=6,
@@ -56,6 +59,7 @@
         caption=Downsampling,
         xlabel={{64, }},
         zlabel=1024,
+        ylabel=640,
         fill=\ConvColor,
         height=20,
         width=1.92,
@@ -71,6 +75,7 @@
         caption= ,
         xlabel={{64, }},
         zlabel=1024,
+        ylabel=640,
         fill={rgb:red,1;black,0.08},
         height=20,
         width=6,
@@ -86,6 +91,7 @@
         caption= ,
         xlabel={{96, }},
         zlabel=512,
+        ylabel=320,
         fill=\ConvColor,
         height=10,
         width=2.88,
@@ -101,6 +107,7 @@
         caption= ,
         xlabel={{96, }},
         zlabel=512,
+        ylabel=320,
         fill={rgb:red,1;black,0.08},
         height=10,
         width=6,
@@ -116,6 +123,7 @@
         caption= ,
         xlabel={{128, }},
         zlabel=256,
+        ylabel=160,
         fill=\ConvColor,
         height=5,
         width=3.84,
@@ -131,6 +139,7 @@
         caption= ,
         xlabel={{128, }},
         zlabel=256,
+        ylabel=160,
         fill={rgb:red,1;black,0.08},
         height=5,
         width=6,
@@ -146,6 +155,7 @@
         caption= ,
         xlabel={{160, }},
         zlabel=128,
+        ylabel=80,
         fill=\ConvColor,
         height=2,
         width=4.8,
@@ -154,6 +164,18 @@
     };
 
 \draw [connection]  (convres4-east)    -- node {\midarrow} (conv5-west);
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% ADDITION
+% Horizontal line going right
+\path (convres4-west) -- (conv5-east) coordinate[pos=1.0] (plane_0_dir) ;
+\coordinate (plane_0_ontheright) at ([xshift=+100pt] plane_0_dir.north east);
+\draw [connection] (plane_0_dir) -- node {\midarrow} (plane_0_ontheright);
+
+% Vertical line going down
+\coordinate (plane_0_ontheright_down) at ([yshift=-413] plane_0_ontheright.north west);
+\draw [connection] (plane_0_ontheright) -- node {\midarrow} (plane_0_ontheright_down);
+%%%%%%%%%%%%%%%%%%%%%%%%%% ADDITION
 
 \node[canvas is zy plane at x=0] (temp) at (-5,0,0) {\reflectbox{\includegraphics[width=13cm,height=8cm]{/Users/deltutto/Downloads/plane_1_zoom}}};
 
@@ -163,6 +185,7 @@
         caption=Initial Convolution,
         xlabel={{32, }},
         zlabel=2048,
+        ylabel=1280,
         fill=\ConvColor,
         height=40,
         width=0.96,
@@ -176,6 +199,7 @@
         caption=2x Residual Block,
         xlabel={{32, }},
         zlabel=2048,
+        ylabel=1280,
         fill={rgb:red,1;black,0.08},
         height=40,
         width=6,
@@ -191,6 +215,7 @@
         caption=Downsampling,
         xlabel={{64, }},
         zlabel=1024,
+        ylabel=640,
         fill=\ConvColor,
         height=20,
         width=1.92,
@@ -206,6 +231,7 @@
         caption= ,
         xlabel={{64, }},
         zlabel=1024,
+        ylabel=640,
         fill={rgb:red,1;black,0.08},
         height=20,
         width=6,
@@ -221,6 +247,7 @@
         caption= ,
         xlabel={{96, }},
         zlabel=512,
+        ylabel=320,
         fill=\ConvColor,
         height=10,
         width=2.88,
@@ -236,6 +263,7 @@
         caption= ,
         xlabel={{96, }},
         zlabel=512,
+        ylabel=320,
         fill={rgb:red,1;black,0.08},
         height=10,
         width=6,
@@ -251,6 +279,7 @@
         caption= ,
         xlabel={{128, }},
         zlabel=256,
+        ylabel=160,
         fill=\ConvColor,
         height=5,
         width=3.84,
@@ -266,6 +295,7 @@
         caption= ,
         xlabel={{128, }},
         zlabel=256,
+        ylabel=160,
         fill={rgb:red,1;black,0.08},
         height=5,
         width=6,
@@ -281,6 +311,7 @@
         caption= ,
         xlabel={{160, }},
         zlabel=128,
+        ylabel=80,
         fill=\ConvColor,
         height=2,
         width=4.8,
@@ -289,6 +320,58 @@
     };
 
 \draw [connection]  (convres4-east)    -- node {\midarrow} (conv5-west);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% ADDITION
+% Horizontal line going right
+\path (convres4-west) -- (conv5-east) coordinate[pos=1.0] (plane_1_dir) ;
+\coordinate (plane_1_ontheright) at ([xshift=+50pt] plane_1_dir.north east);
+\draw [connection] (plane_1_dir) -- node {\midarrow} (plane_1_ontheright);
+
+% Blocks to be concatenated
+\pic[shift={(0.3,0,0)}] at (plane_1_ontheright) 
+    {Box={
+        name=conv5_concat_0,
+        caption= ,
+        xlabel={{160, }},
+        zlabel=,
+        ylabel=80,
+        fill=\ConvColor,
+        height=2,
+        width=4.8,
+        depth=4
+        }
+    };
+\pic[shift={(1.3,0,0)}] at (plane_1_ontheright) 
+    {Box={
+        name=conv5_concat_1,
+        caption= ,
+        xlabel={{160, }},
+        zlabel=,
+        fill=\ConvColor,
+        height=2,
+        width=4.8,
+        depth=4
+        }
+    };
+\pic[shift={(2.3,0,0)}] at (plane_1_ontheright) 
+    {Box={
+        name=conv5_concat_2,
+        caption= ,
+        xlabel={{160, }},
+        zlabel=128,
+        fill=\ConvColor,
+        height=2,
+        width=4.8,
+        depth=4
+        }
+    };
+
+% Concatenation block
+\pic[shift={(0,0,0)}] at (plane_1_ontheright) {Box={name=env,caption=Concatenation of filters\\from all planes,%
+        xlabel={{"","dummy"}},fill=,opacity=0.2,height=4,width={18},depth=4}};
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% ADDITION
 
 \node[canvas is zy plane at x=0] (temp) at (-5,-15,0) {\reflectbox{\includegraphics[width=13cm,height=8cm]{/Users/deltutto/Downloads/plane_2_zoom}}};
 
@@ -298,6 +381,7 @@
         caption=Initial Convolution,
         xlabel={{32, }},
         zlabel=2048,
+        ylabel=1280,
         fill=\ConvColor,
         height=40,
         width=0.96,
@@ -311,6 +395,7 @@
         caption=2x Residual Block,
         xlabel={{32, }},
         zlabel=2048,
+        ylabel=1280,
         fill={rgb:red,1;black,0.08},
         height=40,
         width=6,
@@ -326,6 +411,7 @@
         caption=Downsampling,
         xlabel={{64, }},
         zlabel=1024,
+        ylabel=640,
         fill=\ConvColor,
         height=20,
         width=1.92,
@@ -341,6 +427,7 @@
         caption= ,
         xlabel={{64, }},
         zlabel=1024,
+        ylabel=640,
         fill={rgb:red,1;black,0.08},
         height=20,
         width=6,
@@ -356,6 +443,7 @@
         caption= ,
         xlabel={{96, }},
         zlabel=512,
+        ylabel=320,
         fill=\ConvColor,
         height=10,
         width=2.88,
@@ -371,6 +459,7 @@
         caption= ,
         xlabel={{96, }},
         zlabel=512,
+        ylabel=320,
         fill={rgb:red,1;black,0.08},
         height=10,
         width=6,
@@ -386,6 +475,7 @@
         caption= ,
         xlabel={{128, }},
         zlabel=256,
+        ylabel=160,
         fill=\ConvColor,
         height=5,
         width=3.84,
@@ -401,6 +491,7 @@
         caption= ,
         xlabel={{128, }},
         zlabel=256,
+        ylabel=160,
         fill={rgb:red,1;black,0.08},
         height=5,
         width=6,
@@ -416,6 +507,7 @@
         caption= ,
         xlabel={{160, }},
         zlabel=128,
+        ylabel=80,
         fill=\ConvColor,
         height=2,
         width=4.8,
@@ -425,18 +517,56 @@
 
 \draw [connection]  (convres4-east)    -- node {\midarrow} (conv5-west);
 
-\pic[shift={(5,0,0)}] at (25,0,0) 
+%%%%%%%%%%%%%%%%%%%%%%%%%% ADDITION
+% Horizontal line going right
+\path (convres4-west) -- (conv5-east) coordinate[pos=1.0] (plane_0_dir) ;
+\coordinate (plane_0_ontheright) at ([xshift=+100pt] plane_0_dir.north east);
+\draw [connection] (plane_0_dir) -- node {\midarrow} (plane_0_ontheright);
+
+% Vertical line going up
+\coordinate (plane_0_ontheright_down) at ([yshift=+413pt] plane_0_ontheright.north west);
+\draw [connection] (plane_0_ontheright) -- node {\midarrow} (plane_0_ontheright_down);
+%%%%%%%%%%%%%%%%%%%%%%%%%% ADDITION
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LAST PART
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pic[shift={(5,0,0)}] at (28,0,0) 
     {Box={
         name=conv5,
         caption= ,
         xlabel={{480, }},
         zlabel=128,
+        ylabel=80,
         fill=\ConvColor,
-        height=6,
-        width=14.4,
-        depth=12
+        height=6*4, % image y
+        width=14.4, % n filters
+        depth=12*2 % image x
         }
     };
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% ADDITION
+
+%Dotted edges
+\draw[densely dashed]
+(conv5-nearnorthwest) -- (env-nearnortheast)
+(conv5-nearsouthwest) -- (env-nearsoutheast)
+(conv5-farsouthwest)  -- (env-farsoutheast)
+(conv5-farnorthwest)  -- (env-farnortheast)
+;
+
+
+% Right line
+\draw [connection] (env-east) -- node {\midarrow} (conv5-west);
+%%%%%%%%%%%%%%%%%%%%%%%%%% ADDITION
 
 \pic[shift={(1,0,0)}] at (conv5-east) 
     {Box={
@@ -444,25 +574,27 @@
         caption= ,
         xlabel={{480, }},
         zlabel=128,
+        ylabel=80,
         fill={rgb:red,1;black,0.08},
-        height=6,
+        height=6*4,
         width=18,
-        depth=12
+        depth=12*2
         }
     };
 
 \draw [connection]  (conv5-east)    -- node {\midarrow} (convres5-west);
 
-\pic[shift={(1,0,0)}] at (convres5-east) 
+\pic[shift={(2,0,0)}] at (convres5-east) 
     {Box={
         name=conv6,
         caption= ,
         xlabel={{576, }},
         zlabel=64,
+        ylabel=40,
         fill=\ConvColor,
-        height=3,
+        height=3*4,
         width=17.28,
-        depth=6
+        depth=6*2
         }
     };
 
@@ -474,25 +606,27 @@
         caption= ,
         xlabel={{576, }},
         zlabel=64,
+        ylabel=40,
         fill={rgb:red,1;black,0.08},
-        height=3,
+        height=3*4,
         width=18,
-        depth=6
+        depth=6*2
         }
     };
 
 \draw [connection]  (conv6-east)    -- node {\midarrow} (convres6-west);
 
-\pic[shift={(1,0,0)}] at (convres6-east) 
+\pic[shift={(2,0,0)}] at (convres6-east) 
     {Box={
         name=conv7,
         caption= ,
         xlabel={{672, }},
         zlabel=32,
+        ylabel=20,
         fill=\ConvColor,
-        height=0,
+        height=1*4,
         width=17.28,
-        depth=3
+        depth=3*2
         }
     };
 
@@ -504,10 +638,11 @@
         caption= ,
         xlabel={{672, }},
         zlabel=32,
+        ylabel=20,
         fill={rgb:red,1;black,0.08},
-        height=0,
+        height=1*4,
         width=18,
-        depth=3
+        depth=3*2
         }
     };
 
@@ -519,10 +654,11 @@
         caption=Bottleneck,
         xlabel={{3, }},
         zlabel=32,
+        ylabel=20,
         fill=\ConvColor,
-        height=0,
+        height=1*4,
         width=3,
-        depth=3
+        depth=3*2
         }
     };
 
@@ -532,11 +668,11 @@
     {Box={
         name=pool,
         caption=Av 3D Pooling,
-        fill=\PoolColor,
+        fill=\DcnvColor,
         opacity=0.5,
-        height=0,
+        height=1*4,
         width=3,
-        depth=3
+        depth=3*2
         }
     };
 
@@ -550,9 +686,9 @@
         zlabel=$n_c$,
         fill=\SoftmaxColor,
         opacity=0.8,
-        height=1,
+        height=1*4,
         width=3,
-        depth=1
+        depth=1*2
         }
     };
 

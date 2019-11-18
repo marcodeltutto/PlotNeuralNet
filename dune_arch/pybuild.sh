@@ -1,1 +1,1 @@
-bash ../tikzmake.sh my_arch
+bash ../tikzmake.sh prel_arch_dune_2d.py
